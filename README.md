@@ -108,3 +108,10 @@ If these files are useful, please cite the accompanying manuscript:
 
 **Arpan Bhattacharyya and Saptaswa Ghosh**, *Geometry of massive loops in gravitational scattering: Maximal cut, Riemann's bilinear relations and genus drop*.
 (https://arxiv.org/abs/2610.07234)
+
+## Acknowledgements and AI-assisted tools
+
+The authors acknowledge the developers of **Wolfram Mathematica, LiteRed, Libra, and GiNaC**, which were used for symbolic and numerical computations in this project.
+
+**ChatGPT (OpenAI)** and **Claude (Anthropic)** were used as  tools during the preparation of the codes. All the logical flow behind the
+AI coding has been directed and verified by the authors.
