@@ -1,0 +1,510 @@
+Notebook[
+ {Cell[CellGroupData[
+    {Cell["Exact monodromy and invariant bilinear-form checks", "Title"], 
+     Cell["Exact checks of the orbit-basis monodromy matrices and twisted \
+bilinear pairing. Evaluate the sections in order in a fresh kernel. No \
+external package is required.", "Text"], 
+     Cell[CellGroupData[{Cell["Setup", "Section"], Cell["We use zeta = Exp[I \
+Pi d], with d = 4 - 2 eps. Monodromy acts from the right. The ordered \
+singular points are 0, -3/4, -1, infinity; zeta is nonzero, and the pairing \
+is nondegenerate for zeta != 1, -1.", "Text"], 
+        Cell[CellGroupData[{Cell[BoxData[RowBox[{RowBox[{"ClearAll", "[", 
+                 "\"AncillaryExact04`*\"", "]"}], ";", "\[IndentingNewLine]", 
+               RowBox[{"checks", "=", RowBox[{"Association", "[", "]"}]}], 
+               ";", "\[IndentingNewLine]", RowBox[{RowBox[{"zeroQ", "[", 
+                   "x_", "]"}], ":=", RowBox[{"And", "@@", RowBox[
+                    {RowBox[{"(", RowBox[{RowBox[{"TrueQ", "[", RowBox[
+                          {RowBox[{"Together", "[", "#1", "]"}], "\[Equal]", 
+                          "0"}], "]"}], "&"}], ")"}], "/@", RowBox[
+                      {"Flatten", "[", RowBox[{"{", "x", "}"}], "]"}]}]}]}], 
+               ";", "\[IndentingNewLine]", RowBox[{RowBox[{"assert", "[", 
+                   RowBox[{"name_", ",", "test_"}], "]"}], ":=", 
+                 RowBox[{"If", "[", RowBox[{RowBox[{"TrueQ", "[", "test", 
+                       "]"}], ",", RowBox[{RowBox[{"AssociateTo", "[", 
+                         RowBox[{"checks", ",", RowBox[{"name", "\[Rule]", 
+                          "True"}]}], "]"}], ";", "\[IndentingNewLine]", 
+                       RowBox[{"Print", "[", RowBox[{"name", ",", 
+                          "\" = PASS\""}], "]"}]}], ",", RowBox[
+                      {RowBox[{"Print", "[", RowBox[{"name", ",", 
+                          "\" = FAIL: \"", ",", StyleBox["test", 
+                          ShowStringCharacters -> True, NumberMarks -> 
+                          True]}], "]"}], ";", "\[IndentingNewLine]", 
+                       RowBox[{"Abort", "[", "]"}]}]}], "]"}]}], ";", 
+               "\[IndentingNewLine]", RowBox[{"id", "=", RowBox[
+                  {"IdentityMatrix", "[", "3", "]"}]}], ";", 
+               "\[IndentingNewLine]"}]], "Input"]}, Open]]}, Open]], 
+     Cell[CellGroupData[{Cell["Exact reconstruction in the orbit basis", 
+         "Section"], Cell["The transported rank-one data below are \
+reconstructed from the independent local-series calculation in notebook 05. \
+This cell assembles the four matrices algebraically: rho0 = I/zeta + \
+(1-1/zeta)e1 l0, rhoH = I + uH vH, rhoMinusOne = I + uM vM, and rhoInfinity = \
+-I + uInfinity vInfinity. These data, rather than the sphere relation, are \
+the input to this exact reconstruction. The intermediate l0 has a pole at \
+zeta = 1, but the assembled rho0 has a finite limit.", "Text"], 
+        Cell[CellGroupData[{Cell[BoxData[RowBox[{RowBox[{"id", "=", 
+                 RowBox[{"IdentityMatrix", "[", "3", "]"}]}], ";", 
+               "\[IndentingNewLine]", RowBox[{"e1", "=", RowBox[
+                  {"{", RowBox[{"1", ",", "0", ",", "0"}], "}"}]}], ";", 
+               "\[IndentingNewLine]", RowBox[{"l0", "=", RowBox[
+                  {"{", RowBox[{"1", ",", RowBox[{RowBox[{"2", " ", "zeta"}], 
+                       "+", "1"}], ",", RowBox[{"-", FractionBox[RowBox[
+                         {"zeta", "+", "3"}], RowBox[{"zeta", "-", 
+                          "1"}]]}]}], "}"}]}], ";", "\[IndentingNewLine]", 
+               RowBox[{"uHOrbit", "=", RowBox[{"{", RowBox[{RowBox[{"-", 
+                       "1"}], ",", "1", ",", "0"}], "}"}]}], ";", 
+               "\[IndentingNewLine]", RowBox[{"vHOrbit", "=", RowBox[
+                  {"{", RowBox[{"1", ",", RowBox[{"-", SuperscriptBox["zeta", 
+                        "2"]}], ",", RowBox[{"-", FractionBox["1", 
+                        "zeta"]}]}], "}"}]}], ";", "\[IndentingNewLine]", 
+               RowBox[{"uMOrbit", "=", RowBox[{"{", RowBox[{RowBox[{"-", 
+                       "1"}], ",", "0", ",", "1"}], "}"}]}], ";", 
+               "\[IndentingNewLine]", RowBox[{"vMOrbit", "=", RowBox[
+                  {"{", RowBox[{"1", ",", RowBox[{RowBox[{"-", SuperscriptBox[
+                          "zeta", "2"]}], "+", "zeta", "+", "1"}], ",", 
+                     "1"}], "}"}]}], ";", "\[IndentingNewLine]", RowBox[
+                {"uInfinityOrbit", "=", RowBox[{"{", RowBox[{RowBox[
+                      {RowBox[{"(", RowBox[{RowBox[{"2", " ", "zeta"}], "-", 
+                          "1"}], ")"}], " ", RowBox[{"(", RowBox[{"zeta", 
+                          "+", "1"}], ")"}]}], ",", "1", ",", RowBox[
+                      {"-", "zeta"}]}], "}"}]}], ";", "\[IndentingNewLine]", 
+               RowBox[{"vInfinityOrbit", "=", FractionBox[RowBox[
+                   {"{", RowBox[{"1", ",", RowBox[{RowBox[{"-", 
+                          SuperscriptBox["zeta", "2"]}], "+", "zeta", "+", 
+                        "1"}], ",", RowBox[{"zeta", "+", "2"}]}], "}"}], 
+                  SuperscriptBox["zeta", "2"]]}], ";", "\[IndentingNewLine]", 
+               RowBox[{"rho0", "=", RowBox[{"Factor", "[", RowBox[
+                    {FractionBox["id", "zeta"], "+", RowBox[{RowBox[{"(", 
+                         RowBox[{"1", "-", FractionBox["1", "zeta"]}], ")"}], 
+                       " ", RowBox[{"Outer", "[", RowBox[{"Times", ",", "e1", 
+                          ",", "l0"}], "]"}]}]}], "]"}]}], ";", 
+               "\[IndentingNewLine]", RowBox[{"rhoH", "=", RowBox[{"Factor", 
+                   "[", RowBox[{"id", "+", RowBox[{"Outer", "[", RowBox[
+                        {"Times", ",", "uHOrbit", ",", "vHOrbit"}], "]"}]}], 
+                   "]"}]}], ";", "\[IndentingNewLine]", RowBox[
+                {"rhoMinusOne", "=", RowBox[{"Factor", "[", RowBox[
+                    {"id", "+", RowBox[{"Outer", "[", RowBox[{"Times", ",", 
+                         "uMOrbit", ",", "vMOrbit"}], "]"}]}], "]"}]}], ";", 
+               "\[IndentingNewLine]", RowBox[{"rhoInfinity", "=", 
+                 RowBox[{"Factor", "[", RowBox[{RowBox[{"-", "id"}], "+", 
+                     RowBox[{"Outer", "[", RowBox[{"Times", ",", 
+                         "uInfinityOrbit", ",", "vInfinityOrbit"}], "]"}]}], 
+                   "]"}]}], ";", "\[IndentingNewLine]", RowBox[{"rhoList", 
+                 "=", RowBox[{"{", RowBox[{"rho0", ",", "rhoH", ",", 
+                     "rhoMinusOne", ",", "rhoInfinity"}], "}"}]}], ";", 
+               "\[IndentingNewLine]", RowBox[{"points", "=", RowBox[
+                  {"{", RowBox[{"0", ",", RowBox[{"-", FractionBox["3", 
+                        "4"]}], ",", RowBox[{"-", "1"}], ",", 
+                     "\[Infinity]"}], "}"}]}], ";", "\[IndentingNewLine]"}]], 
+            "Input"]}, Open]], Cell[CellGroupData[
+          {Cell[BoxData[RowBox[{"Grid", "[", RowBox[{RowBox[{"Prepend", "[", 
+                   RowBox[{RowBox[{"Table", "[", RowBox[{RowBox[{"{", RowBox[
+                          {RowBox[{"points", "\[LeftDoubleBracket]", "k", 
+                          "\[RightDoubleBracket]"}], ",", TagBox[RowBox[
+                          {"rhoList", "\[LeftDoubleBracket]", "k", 
+                          "\[RightDoubleBracket]"}], Function[BoxForm`e$, 
+                          MatrixForm[BoxForm`e$]]]}], "}"}], ",", RowBox[
+                          {"{", RowBox[{"k", ",", "4"}], "}"}]}], "]"}], ",", 
+                     RowBox[{"{", RowBox[{"\"Singular point\"", ",", 
+                         "\"Monodromy matrix\""}], "}"}]}], "]"}], ",", 
+                 RowBox[{"Frame", "\[Rule]", "All"}], ",", RowBox[
+                  {"Alignment", "\[Rule]", "Left"}], ",", RowBox[{"Spacings", 
+                   "\[Rule]", RowBox[{"{", RowBox[{"2", ",", "1"}], 
+                     "}"}]}]}], "]"}]], "Input"], 
+           Cell[BoxData[TagBox[GridBox[{{"\"Singular point\"", 
+                 "\"Monodromy matrix\""}, {"0", RowBox[{"{", RowBox[
+                    {RowBox[{"{", RowBox[{"1", ",", FractionBox[RowBox[
+                          {RowBox[{"(", RowBox[{RowBox[{"-", "1"}], "+", 
+                          "zeta"}], ")"}], " ", RowBox[{"(", RowBox[{"1", 
+                          "+", RowBox[{"2", " ", "zeta"}]}], ")"}]}], 
+                          "zeta"], ",", RowBox[{"-", FractionBox[RowBox[
+                          {"3", "+", "zeta"}], "zeta"]}]}], "}"}], ",", 
+                     RowBox[{"{", RowBox[{"0", ",", FractionBox["1", "zeta"], 
+                         ",", "0"}], "}"}], ",", RowBox[{"{", RowBox[
+                        {"0", ",", "0", ",", FractionBox["1", "zeta"]}], 
+                       "}"}]}], "}"}]}, {RowBox[{"-", FractionBox["3", 
+                    "4"]}], RowBox[{"{", RowBox[{RowBox[{"{", RowBox[
+                        {"0", ",", SuperscriptBox["zeta", "2"], ",", 
+                         FractionBox["1", "zeta"]}], "}"}], ",", RowBox[
+                      {"{", RowBox[{"1", ",", RowBox[{"-", RowBox[{"(", 
+                          RowBox[{RowBox[{"(", RowBox[{RowBox[{"-", "1"}], 
+                          "+", "zeta"}], ")"}], " ", RowBox[{"(", RowBox[
+                          {"1", "+", "zeta"}], ")"}]}], ")"}]}], ",", 
+                         RowBox[{"-", FractionBox["1", "zeta"]}]}], "}"}], 
+                     ",", RowBox[{"{", RowBox[{"0", ",", "0", ",", "1"}], 
+                       "}"}]}], "}"}]}, {RowBox[{"-", "1"}], RowBox[
+                  {"{", RowBox[{RowBox[{"{", RowBox[{"0", ",", RowBox[
+                          {RowBox[{"-", "1"}], "-", "zeta", "+", 
+                          SuperscriptBox["zeta", "2"]}], ",", RowBox[{"-", 
+                          "1"}]}], "}"}], ",", RowBox[{"{", RowBox[{"0", ",", 
+                         "1", ",", "0"}], "}"}], ",", RowBox[{"{", RowBox[
+                        {"1", ",", RowBox[{"1", "+", "zeta", "-", 
+                          SuperscriptBox["zeta", "2"]}], ",", "2"}], "}"}]}], 
+                   "}"}]}, {"\[Infinity]", RowBox[{"{", RowBox[
+                    {RowBox[{"{", RowBox[{FractionBox[RowBox[{RowBox[{"-", 
+                          "1"}], "+", "zeta", "+", SuperscriptBox["zeta", 
+                          "2"]}], SuperscriptBox["zeta", "2"]], ",", RowBox[
+                          {"-", FractionBox[RowBox[{RowBox[{"(", RowBox[
+                          {"1", "+", "zeta"}], ")"}], " ", RowBox[{"(", 
+                          RowBox[{RowBox[{"-", "1"}], "+", RowBox[{"2", " ", 
+                          "zeta"}]}], ")"}], " ", RowBox[{"(", RowBox[
+                          {RowBox[{"-", "1"}], "-", "zeta", "+", 
+                          SuperscriptBox["zeta", "2"]}], ")"}]}], 
+                          SuperscriptBox["zeta", "2"]]}], ",", FractionBox[
+                          RowBox[{RowBox[{"(", RowBox[{"1", "+", "zeta"}], 
+                          ")"}], " ", RowBox[{"(", RowBox[{"2", "+", 
+                          "zeta"}], ")"}], " ", RowBox[{"(", RowBox[{RowBox[
+                          {"-", "1"}], "+", RowBox[{"2", " ", "zeta"}]}], 
+                          ")"}]}], SuperscriptBox["zeta", "2"]]}], "}"}], 
+                     ",", RowBox[{"{", RowBox[{FractionBox["1", 
+                          SuperscriptBox["zeta", "2"]], ",", RowBox[{"-", 
+                          FractionBox[RowBox[{RowBox[{"(", RowBox[{RowBox[
+                          {"-", "1"}], "+", "zeta"}], ")"}], " ", RowBox[
+                          {"(", RowBox[{"1", "+", RowBox[{"2", " ", 
+                          "zeta"}]}], ")"}]}], SuperscriptBox["zeta", 
+                          "2"]]}], ",", FractionBox[RowBox[{"2", "+", 
+                          "zeta"}], SuperscriptBox["zeta", "2"]]}], "}"}], 
+                     ",", RowBox[{"{", RowBox[{RowBox[{"-", FractionBox["1", 
+                          "zeta"]}], ",", FractionBox[RowBox[{RowBox[{"-", 
+                          "1"}], "-", "zeta", "+", SuperscriptBox["zeta", 
+                          "2"]}], "zeta"], ",", RowBox[{"-", FractionBox[
+                          RowBox[{"2", " ", RowBox[{"(", RowBox[{"1", "+", 
+                          "zeta"}], ")"}]}], "zeta"]}]}], "}"}]}], "}"}]}}, 
+               GridBoxAlignment -> {"Columns" -> {{Left}}}, AutoDelete -> 
+                False, GridBoxFrame -> {"Columns" -> {{True}}, "Rows" -> 
+                  {{True}}}, GridBoxItemSize -> {"Columns" -> {{Automatic}}, 
+                 "Rows" -> {{Automatic}}}, GridBoxSpacings -> 
+                {"Columns" -> {{2}}, "Rows" -> {{1}}}], "Grid"]], "Output", 
+            GeneratedCell -> True, CellAutoOverwrite -> True]}, Open]]}, 
+       Open]], Cell[CellGroupData[
+       {Cell["Exact sphere, determinant, and spectral checks", "Section"], 
+        Cell[CellGroupData[{Cell[BoxData[RowBox[{RowBox[{"sphereResidual", 
+                 "=", RowBox[{"Together", "[", RowBox[{RowBox[{"Dot", "@@", 
+                       "rhoList"}], "-", "id"}], "]"}]}], ";", 
+               "\[IndentingNewLine]", RowBox[{"assert", "[", RowBox[
+                  {"\"SPHERE_RELATION\"", ",", RowBox[{"zeroQ", "[", 
+                     "sphereResidual", "]"}]}], "]"}], ";", 
+               "\[IndentingNewLine]", RowBox[{"determinantFormulas", "=", 
+                 RowBox[{"{", RowBox[{FractionBox["1", SuperscriptBox["zeta", 
+                       "2"]], ",", RowBox[{"-", SuperscriptBox["zeta", 
+                        "2"]}], ",", "1", ",", RowBox[{"-", "1"}]}], "}"}]}], 
+               ";", "\[IndentingNewLine]", RowBox[{"characteristicFormulas", 
+                 "=", RowBox[{"{", RowBox[{RowBox[{RowBox[{"(", RowBox[
+                          {"lambda", "-", "1"}], ")"}], " ", SuperscriptBox[
+                        RowBox[{"(", RowBox[{"lambda", "-", FractionBox["1", 
+                          "zeta"]}], ")"}], "2"]}], ",", RowBox[
+                      {SuperscriptBox[RowBox[{"(", RowBox[{"lambda", "-", 
+                          "1"}], ")"}], "2"], " ", RowBox[{"(", RowBox[
+                          {"lambda", "+", SuperscriptBox["zeta", "2"]}], 
+                         ")"}]}], ",", SuperscriptBox[RowBox[{"(", RowBox[
+                         {"lambda", "-", "1"}], ")"}], "3"], ",", 
+                     SuperscriptBox[RowBox[{"(", RowBox[{"lambda", "+", 
+                          "1"}], ")"}], "3"]}], "}"}]}], ";", 
+               "\[IndentingNewLine]", RowBox[{"Do", "[", RowBox[
+                  {RowBox[{RowBox[{"assert", "[", RowBox[{RowBox[
+                          {"\"DETERMINANT_\"", "<>", RowBox[{"ToString", "[", 
+                          "k", "]"}]}], ",", RowBox[{"zeroQ", "[", RowBox[
+                          {RowBox[{"Det", "[", RowBox[{"rhoList", 
+                          "\[LeftDoubleBracket]", "k", 
+                          "\[RightDoubleBracket]"}], "]"}], "-", RowBox[
+                          {"determinantFormulas", "\[LeftDoubleBracket]", 
+                          "k", "\[RightDoubleBracket]"}]}], "]"}]}], "]"}], 
+                     ";", "\[IndentingNewLine]", RowBox[{"assert", "[", 
+                       RowBox[{RowBox[{"\"CHARACTERISTIC_POLYNOMIAL_\"", 
+                          "<>", RowBox[{"ToString", "[", "k", "]"}]}], ",", 
+                         RowBox[{"zeroQ", "[", RowBox[{RowBox[{"Det", "[", 
+                          RowBox[{RowBox[{"lambda", " ", "id"}], "-", RowBox[
+                          {"rhoList", "\[LeftDoubleBracket]", "k", 
+                          "\[RightDoubleBracket]"}]}], "]"}], "-", RowBox[
+                          {"characteristicFormulas", "\[LeftDoubleBracket]", 
+                          "k", "\[RightDoubleBracket]"}]}], "]"}]}], "]"}]}], 
+                   ",", RowBox[{"{", RowBox[{"k", ",", "4"}], "}"}]}], "]"}], 
+               ";", "\[IndentingNewLine]", RowBox[{"assert", "[", 
+                 RowBox[{"\"MINUS_ONE_NILPOTENT_PART\"", ",", RowBox[
+                    {"zeroQ", "[", RowBox[{RowBox[{"(", RowBox[
+                          {"rhoMinusOne", "-", "id"}], ")"}], ".", RowBox[
+                        {"(", RowBox[{"rhoMinusOne", "-", "id"}], ")"}]}], 
+                     "]"}]}], "]"}], ";", "\[IndentingNewLine]", RowBox[
+                {"assert", "[", RowBox[{"\"INFINITY_NILPOTENT_PART\"", ",", 
+                   RowBox[{"zeroQ", "[", RowBox[{RowBox[{"(", RowBox[
+                          {"rhoInfinity", "+", "id"}], ")"}], ".", RowBox[
+                        {"(", RowBox[{"rhoInfinity", "+", "id"}], ")"}]}], 
+                     "]"}]}], "]"}], ";", "\[IndentingNewLine]", RowBox[
+                {"Grid", "[", RowBox[{RowBox[{"Prepend", "[", RowBox[
+                      {RowBox[{"Table", "[", RowBox[{RowBox[{"{", RowBox[
+                          {RowBox[{"points", "\[LeftDoubleBracket]", "k", 
+                          "\[RightDoubleBracket]"}], ",", RowBox[
+                          {"determinantFormulas", "\[LeftDoubleBracket]", 
+                          "k", "\[RightDoubleBracket]"}], ",", RowBox[
+                          {"characteristicFormulas", "\[LeftDoubleBracket]", 
+                          "k", "\[RightDoubleBracket]"}]}], "}"}], ",", 
+                          RowBox[{"{", RowBox[{"k", ",", "4"}], "}"}]}], 
+                         "]"}], ",", RowBox[{"{", RowBox[{"\"Point\"", ",", 
+                          "\"Determinant\"", ",", 
+                          "\"Characteristic polynomial\""}], "}"}]}], "]"}], 
+                   ",", RowBox[{"Frame", "\[Rule]", "All"}]}], "]"}]}]], 
+            "Input"], Cell[BoxData[TemplateBox[{"\"SPHERE_RELATION\"", 
+               "\" = PASS\""}, "RowDefault"]], "Print", GeneratedCell -> 
+             True, CellAutoOverwrite -> True], 
+           Cell[BoxData[TemplateBox[{"\"DETERMINANT_1\"", "\" = PASS\""}, 
+              "RowDefault"]], "Print", GeneratedCell -> True, 
+            CellAutoOverwrite -> True], Cell[BoxData[TemplateBox[
+              {"\"CHARACTERISTIC_POLYNOMIAL_1\"", "\" = PASS\""}, 
+              "RowDefault"]], "Print", GeneratedCell -> True, 
+            CellAutoOverwrite -> True], Cell[BoxData[TemplateBox[
+              {"\"DETERMINANT_2\"", "\" = PASS\""}, "RowDefault"]], "Print", 
+            GeneratedCell -> True, CellAutoOverwrite -> True], 
+           Cell[BoxData[TemplateBox[{"\"CHARACTERISTIC_POLYNOMIAL_2\"", 
+               "\" = PASS\""}, "RowDefault"]], "Print", GeneratedCell -> 
+             True, CellAutoOverwrite -> True], 
+           Cell[BoxData[TemplateBox[{"\"DETERMINANT_3\"", "\" = PASS\""}, 
+              "RowDefault"]], "Print", GeneratedCell -> True, 
+            CellAutoOverwrite -> True], Cell[BoxData[TemplateBox[
+              {"\"CHARACTERISTIC_POLYNOMIAL_3\"", "\" = PASS\""}, 
+              "RowDefault"]], "Print", GeneratedCell -> True, 
+            CellAutoOverwrite -> True], Cell[BoxData[TemplateBox[
+              {"\"DETERMINANT_4\"", "\" = PASS\""}, "RowDefault"]], "Print", 
+            GeneratedCell -> True, CellAutoOverwrite -> True], 
+           Cell[BoxData[TemplateBox[{"\"CHARACTERISTIC_POLYNOMIAL_4\"", 
+               "\" = PASS\""}, "RowDefault"]], "Print", GeneratedCell -> 
+             True, CellAutoOverwrite -> True], 
+           Cell[BoxData[TemplateBox[{"\"MINUS_ONE_NILPOTENT_PART\"", 
+               "\" = PASS\""}, "RowDefault"]], "Print", GeneratedCell -> 
+             True, CellAutoOverwrite -> True], 
+           Cell[BoxData[TemplateBox[{"\"INFINITY_NILPOTENT_PART\"", 
+               "\" = PASS\""}, "RowDefault"]], "Print", GeneratedCell -> 
+             True, CellAutoOverwrite -> True], 
+           Cell[BoxData[TagBox[GridBox[{{"\"Point\"", "\"Determinant\"", 
+                 "\"Characteristic polynomial\""}, {"0", FractionBox["1", 
+                  SuperscriptBox["zeta", "2"]], RowBox[{RowBox[{"(", 
+                     RowBox[{RowBox[{"-", "1"}], "+", "lambda"}], ")"}], " ", 
+                   SuperscriptBox[RowBox[{"(", RowBox[{"lambda", "-", 
+                        FractionBox["1", "zeta"]}], ")"}], "2"]}]}, 
+                {RowBox[{"-", FractionBox["3", "4"]}], RowBox[{"-", 
+                   SuperscriptBox["zeta", "2"]}], RowBox[{SuperscriptBox[
+                    RowBox[{"(", RowBox[{RowBox[{"-", "1"}], "+", "lambda"}], 
+                      ")"}], "2"], " ", RowBox[{"(", RowBox[{"lambda", "+", 
+                       SuperscriptBox["zeta", "2"]}], ")"}]}]}, 
+                {RowBox[{"-", "1"}], "1", SuperscriptBox[RowBox[{"(", 
+                    RowBox[{RowBox[{"-", "1"}], "+", "lambda"}], ")"}], 
+                  "3"]}, {"\[Infinity]", RowBox[{"-", "1"}], SuperscriptBox[
+                  RowBox[{"(", RowBox[{"1", "+", "lambda"}], ")"}], "3"]}}, 
+               AutoDelete -> False, GridBoxFrame -> {"Columns" -> {{True}}, 
+                 "Rows" -> {{True}}}, GridBoxItemSize -> {"Columns" -> 
+                  {{Automatic}}, "Rows" -> {{Automatic}}}], "Grid"]], 
+            "Output", GeneratedCell -> True, CellAutoOverwrite -> True]}, 
+          Open]]}, Open]], Cell[CellGroupData[
+       {Cell["Twisted bilinear pairing", "Section"], 
+        Cell["The dual-dimensional generator is obtained by zeta -> 1/zeta. \
+Each generator must satisfy Transpose[rho[1/zeta]].B[zeta].rho[zeta] = \
+B[zeta]. The overall normalization of B is fixed by its displayed first \
+entry.", "Text"], Cell[CellGroupData[
+          {Cell[BoxData[RowBox[{RowBox[{"B", "=", RowBox[{"{", RowBox[
+                    {RowBox[{"{", RowBox[{RowBox[{RowBox[{"-", RowBox[{"(", 
+                          RowBox[{"zeta", "-", "1"}], ")"}]}], " ", 
+                          SuperscriptBox["zeta", "2"]}], ",", RowBox[
+                          {RowBox[{RowBox[{"-", "2"}], " ", SuperscriptBox[
+                          "zeta", "4"]}], "+", SuperscriptBox["zeta", "3"], 
+                          "+", SuperscriptBox["zeta", "2"]}], ",", RowBox[
+                          {SuperscriptBox["zeta", "2"], " ", RowBox[{"(", 
+                          RowBox[{"zeta", "+", "3"}], ")"}]}]}], "}"}], ",", 
+                     RowBox[{"{", RowBox[{RowBox[{RowBox[{"-", RowBox[{"(", 
+                          RowBox[{"zeta", "-", "1"}], ")"}]}], " ", "zeta", 
+                          " ", RowBox[{"(", RowBox[{"zeta", "+", "2"}], 
+                          ")"}]}], ",", RowBox[{RowBox[{"-", RowBox[{"(", 
+                          RowBox[{"zeta", "-", "1"}], ")"}]}], " ", 
+                          SuperscriptBox["zeta", "2"]}], ",", RowBox[
+                          {RowBox[{"zeta", " ", RowBox[{"(", RowBox[{"zeta", 
+                          "+", "1"}], ")"}], " ", RowBox[{"(", RowBox[
+                          {"zeta", "+", "2"}], ")"}]}], "-", "2"}]}], "}"}], 
+                     ",", RowBox[{"{", RowBox[{RowBox[{RowBox[{"-", 
+                          SuperscriptBox["zeta", "2"]}], " ", RowBox[{"(", 
+                          RowBox[{RowBox[{"3", " ", "zeta"}], "+", "1"}], 
+                          ")"}]}], ",", RowBox[{SuperscriptBox["zeta", "2"], 
+                          " ", RowBox[{"(", RowBox[{RowBox[{"zeta", " ", 
+                          RowBox[{"(", RowBox[{RowBox[{"2", " ", RowBox[{"(", 
+                          RowBox[{"zeta", "-", "1"}], ")"}], " ", "zeta"}], 
+                          "-", "3"}], ")"}]}], "-", "1"}], ")"}]}], ",", 
+                         RowBox[{RowBox[{"-", RowBox[{"(", RowBox[{"zeta", 
+                          "-", "1"}], ")"}]}], " ", SuperscriptBox["zeta", 
+                          "2"]}]}], "}"}]}], "}"}]}], ";", 
+               "\[IndentingNewLine]"}]], "Input"]}, Open]], 
+        Cell[CellGroupData[{Cell[BoxData[RowBox[{RowBox[{"bilinearResiduals", 
+                 "=", RowBox[{"Table", "[", RowBox[{RowBox[{"Together", "[", 
+                       RowBox[{RowBox[{TemplateBox[{RowBox[{"(", RowBox[
+                          {RowBox[{"rhoList", "\[LeftDoubleBracket]", "k", 
+                          "\[RightDoubleBracket]"}], "/.", 
+                          "\[VeryThinSpace]", RowBox[{"zeta", "\[Rule]", 
+                          FractionBox["1", "zeta"]}]}], ")"}]}, "Transpose", 
+                          SyntaxForm -> SuperscriptBox], ".", "B", ".", 
+                          RowBox[{"rhoList", "\[LeftDoubleBracket]", "k", 
+                          "\[RightDoubleBracket]"}]}], "-", "B"}], "]"}], 
+                     ",", RowBox[{"{", RowBox[{"k", ",", "4"}], "}"}]}], 
+                   "]"}]}], ";", "\[IndentingNewLine]", RowBox[{"Do", "[", 
+                 RowBox[{RowBox[{"assert", "[", RowBox[{RowBox[
+                        {"\"BILINEAR_INVARIANCE_\"", "<>", RowBox[
+                          {"ToString", "[", "k", "]"}]}], ",", RowBox[
+                        {"zeroQ", "[", RowBox[{"bilinearResiduals", 
+                          "\[LeftDoubleBracket]", "k", 
+                          "\[RightDoubleBracket]"}], "]"}]}], "]"}], ",", 
+                   RowBox[{"{", RowBox[{"k", ",", "4"}], "}"}]}], "]"}], ";", 
+               "\[IndentingNewLine]", RowBox[{"assert", "[", RowBox[
+                  {"\"BILINEAR_DETERMINANT\"", ",", RowBox[{"zeroQ", "[", 
+                     RowBox[{RowBox[{"Det", "[", "B", "]"}], "-", RowBox[
+                        {"4", " ", RowBox[{"(", RowBox[{"zeta", "-", "1"}], 
+                          ")"}], " ", SuperscriptBox["zeta", "5"], " ", 
+                         SuperscriptBox[RowBox[{"(", RowBox[{"zeta", "+", 
+                          "1"}], ")"}], "4"]}]}], "]"}]}], "]"}], ";", 
+               "\[IndentingNewLine]", TagBox["B", Function[BoxForm`e$, 
+                 MatrixForm[BoxForm`e$]]]}]], "Input"], 
+           Cell[BoxData[TemplateBox[{"\"BILINEAR_INVARIANCE_1\"", 
+               "\" = PASS\""}, "RowDefault"]], "Print", GeneratedCell -> 
+             True, CellAutoOverwrite -> True], 
+           Cell[BoxData[TemplateBox[{"\"BILINEAR_INVARIANCE_2\"", 
+               "\" = PASS\""}, "RowDefault"]], "Print", GeneratedCell -> 
+             True, CellAutoOverwrite -> True], 
+           Cell[BoxData[TemplateBox[{"\"BILINEAR_INVARIANCE_3\"", 
+               "\" = PASS\""}, "RowDefault"]], "Print", GeneratedCell -> 
+             True, CellAutoOverwrite -> True], 
+           Cell[BoxData[TemplateBox[{"\"BILINEAR_INVARIANCE_4\"", 
+               "\" = PASS\""}, "RowDefault"]], "Print", GeneratedCell -> 
+             True, CellAutoOverwrite -> True], 
+           Cell[BoxData[TemplateBox[{"\"BILINEAR_DETERMINANT\"", 
+               "\" = PASS\""}, "RowDefault"]], "Print", GeneratedCell -> 
+             True, CellAutoOverwrite -> True], 
+           Cell[BoxData[RowBox[{"{", RowBox[{RowBox[{"{", RowBox[
+                    {RowBox[{RowBox[{"(", RowBox[{"1", "-", "zeta"}], ")"}], 
+                       " ", SuperscriptBox["zeta", "2"]}], ",", RowBox[
+                      {SuperscriptBox["zeta", "2"], "+", SuperscriptBox[
+                        "zeta", "3"], "-", RowBox[{"2", " ", SuperscriptBox[
+                          "zeta", "4"]}]}], ",", RowBox[{SuperscriptBox[
+                        "zeta", "2"], " ", RowBox[{"(", RowBox[{"3", "+", 
+                          "zeta"}], ")"}]}]}], "}"}], ",", RowBox[
+                  {"{", RowBox[{RowBox[{RowBox[{"(", RowBox[{"1", "-", 
+                          "zeta"}], ")"}], " ", "zeta", " ", RowBox[{"(", 
+                         RowBox[{"2", "+", "zeta"}], ")"}]}], ",", RowBox[
+                      {RowBox[{"(", RowBox[{"1", "-", "zeta"}], ")"}], " ", 
+                       SuperscriptBox["zeta", "2"]}], ",", RowBox[
+                      {RowBox[{"-", "2"}], "+", RowBox[{"zeta", " ", RowBox[
+                          {"(", RowBox[{"1", "+", "zeta"}], ")"}], " ", 
+                         RowBox[{"(", RowBox[{"2", "+", "zeta"}], 
+                          ")"}]}]}]}], "}"}], ",", RowBox[{"{", RowBox[
+                    {RowBox[{RowBox[{"-", SuperscriptBox["zeta", "2"]}], " ", 
+                       RowBox[{"(", RowBox[{"1", "+", RowBox[{"3", " ", 
+                          "zeta"}]}], ")"}]}], ",", RowBox[{SuperscriptBox[
+                        "zeta", "2"], " ", RowBox[{"(", RowBox[{RowBox[
+                          {"-", "1"}], "+", RowBox[{"zeta", " ", RowBox[
+                          {"(", RowBox[{RowBox[{"-", "3"}], "+", RowBox[
+                          {"2", " ", RowBox[{"(", RowBox[{RowBox[{"-", "1"}], 
+                          "+", "zeta"}], ")"}], " ", "zeta"}]}], ")"}]}]}], 
+                         ")"}]}], ",", RowBox[{RowBox[{"(", RowBox[{"1", "-", 
+                          "zeta"}], ")"}], " ", SuperscriptBox["zeta", 
+                        "2"]}]}], "}"}]}], "}"}]], "Output", 
+            GeneratedCell -> True, CellAutoOverwrite -> True]}, Open]]}, 
+       Open]], Cell[CellGroupData[
+       {Cell["Reconstruction of the pairing from the linear equations", 
+         "Section"], Cell["Solve the simultaneous invariance equations for \
+nine unspecified entries. Over the field of rational functions in generic \
+zeta, their solution space has dimension one. Normalize the resulting matrix \
+and compare it with the displayed B.", "Text"], 
+        Cell[CellGroupData[{Cell[BoxData[RowBox[{RowBox[{"bVariables", "=", 
+                 RowBox[{"Array", "[", RowBox[{"b", ",", RowBox[{"{", 
+                       RowBox[{"3", ",", "3"}], "}"}]}], "]"}]}], ";", 
+               "\[IndentingNewLine]", RowBox[{"linearEquations", "=", 
+                 RowBox[{RowBox[{"(", RowBox[{RowBox[{"Numerator", "[", 
+                         RowBox[{"Together", "[", "#1", "]"}], "]"}], "&"}], 
+                     ")"}], "/@", RowBox[{"Flatten", "[", RowBox[{"Table", 
+                       "[", RowBox[{RowBox[{RowBox[{TemplateBox[{RowBox[
+                          {"(", RowBox[{RowBox[{"rhoList", 
+                          "\[LeftDoubleBracket]", "k", 
+                          "\[RightDoubleBracket]"}], "/.", 
+                          "\[VeryThinSpace]", RowBox[{"zeta", "\[Rule]", 
+                          FractionBox["1", "zeta"]}]}], ")"}]}, "Transpose", 
+                          SyntaxForm -> SuperscriptBox], ".", "bVariables", 
+                          ".", RowBox[{"rhoList", "\[LeftDoubleBracket]", 
+                          "k", "\[RightDoubleBracket]"}]}], "-", 
+                          "bVariables"}], ",", RowBox[{"{", RowBox[{"k", ",", 
+                          "4"}], "}"}]}], "]"}], "]"}]}]}], ";", 
+               "\[IndentingNewLine]", RowBox[{"coefficientMatrix", "=", 
+                 RowBox[{"Normal", "[", RowBox[{RowBox[{"CoefficientArrays", 
+                       "[", RowBox[{"linearEquations", ",", RowBox[
+                          {"Flatten", "[", "bVariables", "]"}]}], "]"}], 
+                     "\[LeftDoubleBracket]", "2", "\[RightDoubleBracket]"}], 
+                   "]"}]}], ";", "\[IndentingNewLine]", RowBox[
+                {"pairingNullSpace", "=", RowBox[{"NullSpace", "[", 
+                   "coefficientMatrix", "]"}]}], ";", "\[IndentingNewLine]", 
+               RowBox[{"assert", "[", RowBox[{"\"PAIRING_NULLITY_ONE\"", ",", 
+                   RowBox[{RowBox[{"Length", "[", "pairingNullSpace", "]"}], 
+                     "\[Equal]", "1"}]}], "]"}], ";", "\[IndentingNewLine]", 
+               RowBox[{"reconstructedB", "=", RowBox[{"Partition", "[", 
+                   RowBox[{RowBox[{"First", "[", "pairingNullSpace", "]"}], 
+                     ",", "3"}], "]"}]}], ";", "\[IndentingNewLine]", RowBox[
+                {"reconstructedB", "=", RowBox[{"Together", "[", FractionBox[
+                    RowBox[{"reconstructedB", " ", RowBox[{"B", 
+                        "\[LeftDoubleBracket]", RowBox[{"1", ",", "1"}], 
+                        "\[RightDoubleBracket]"}]}], RowBox[
+                     {"reconstructedB", "\[LeftDoubleBracket]", RowBox[
+                       {"1", ",", "1"}], "\[RightDoubleBracket]"}]], "]"}]}], 
+               ";", "\[IndentingNewLine]", RowBox[{"assert", "[", 
+                 RowBox[{"\"PAIRING_RECONSTRUCTION\"", ",", RowBox[{"zeroQ", 
+                     "[", RowBox[{"reconstructedB", "-", "B"}], "]"}]}], 
+                 "]"}], ";", "\[IndentingNewLine]", TagBox["reconstructedB", 
+                Function[BoxForm`e$, MatrixForm[BoxForm`e$]]]}]], "Input"], 
+           Cell[BoxData[TemplateBox[{"\"PAIRING_NULLITY_ONE\"", 
+               "\" = PASS\""}, "RowDefault"]], "Print", GeneratedCell -> 
+             True, CellAutoOverwrite -> True], 
+           Cell[BoxData[TemplateBox[{"\"PAIRING_RECONSTRUCTION\"", 
+               "\" = PASS\""}, "RowDefault"]], "Print", GeneratedCell -> 
+             True, CellAutoOverwrite -> True], 
+           Cell[BoxData[RowBox[{"{", RowBox[{RowBox[{"{", RowBox[
+                    {RowBox[{"-", RowBox[{"(", RowBox[{RowBox[{"(", RowBox[
+                          {RowBox[{"-", "1"}], "+", "zeta"}], ")"}], " ", 
+                          SuperscriptBox["zeta", "2"]}], ")"}]}], ",", 
+                     RowBox[{SuperscriptBox["zeta", "2"], "+", SuperscriptBox[
+                        "zeta", "3"], "-", RowBox[{"2", " ", SuperscriptBox[
+                          "zeta", "4"]}]}], ",", RowBox[{RowBox[{"3", " ", 
+                         SuperscriptBox["zeta", "2"]}], "+", SuperscriptBox[
+                        "zeta", "3"]}]}], "}"}], ",", RowBox[{"{", 
+                   RowBox[{RowBox[{"-", RowBox[{"(", RowBox[{RowBox[{"(", 
+                          RowBox[{RowBox[{"-", "1"}], "+", "zeta"}], ")"}], 
+                          " ", "zeta", " ", RowBox[{"(", RowBox[{"2", "+", 
+                          "zeta"}], ")"}]}], ")"}]}], ",", RowBox[{"-", 
+                       RowBox[{"(", RowBox[{RowBox[{"(", RowBox[{RowBox[
+                          {"-", "1"}], "+", "zeta"}], ")"}], " ", 
+                          SuperscriptBox["zeta", "2"]}], ")"}]}], ",", 
+                     RowBox[{RowBox[{"-", "2"}], "+", RowBox[{"2", " ", 
+                         "zeta"}], "+", RowBox[{"3", " ", SuperscriptBox[
+                          "zeta", "2"]}], "+", SuperscriptBox["zeta", 
+                        "3"]}]}], "}"}], ",", RowBox[{"{", RowBox[
+                    {RowBox[{RowBox[{"-", SuperscriptBox["zeta", "2"]}], " ", 
+                       RowBox[{"(", RowBox[{"1", "+", RowBox[{"3", " ", 
+                          "zeta"}]}], ")"}]}], ",", RowBox[{RowBox[{"-", 
+                         SuperscriptBox["zeta", "2"]}], "-", RowBox[{"3", 
+                         " ", SuperscriptBox["zeta", "3"]}], "-", RowBox[
+                        {"2", " ", SuperscriptBox["zeta", "4"]}], "+", 
+                       RowBox[{"2", " ", SuperscriptBox["zeta", "5"]}]}], 
+                     ",", RowBox[{"-", RowBox[{"(", RowBox[{RowBox[{"(", 
+                          RowBox[{RowBox[{"-", "1"}], "+", "zeta"}], ")"}], 
+                          " ", SuperscriptBox["zeta", "2"]}], ")"}]}]}], 
+                   "}"}]}], "}"}]], "Output", GeneratedCell -> True, 
+            CellAutoOverwrite -> True]}, Open]]}, Open]], 
+     Cell[CellGroupData[{Cell["Verification summary", "Section"], 
+        Cell[CellGroupData[{Cell[BoxData[RowBox[{RowBox[{"assert", "[", 
+                 RowBox[{"\"ALL_EXACT_CHECKS\"", ",", RowBox[{"And", "@@", 
+                     RowBox[{"Values", "[", "checks", "]"}]}]}], "]"}], ";", 
+               "\[IndentingNewLine]", RowBox[{"And", "@@", RowBox[{"Values", 
+                   "[", "checks", "]"}]}]}]], "Input"], 
+           Cell[BoxData[TemplateBox[{"\"ALL_EXACT_CHECKS\"", "\" = PASS\""}, 
+              "RowDefault"]], "Print", GeneratedCell -> True, 
+            CellAutoOverwrite -> True], Cell[BoxData["True"], "Output", 
+            GeneratedCell -> True, CellAutoOverwrite -> True]}, Open]], 
+        Cell["The identities above are exact rational-function identities. \
+They do not, by themselves, establish that these matrices are the monodromies \
+of the differential equation. Their independent reconstruction from local \
+series and connection matrices is supplied in \
+05-libra-monodromy-independent-check.nb.", "Text"], Cell["Reference: R. N. \
+Lee and A. A. Pomeransky, Monodromy of multiloop integrals in d dimensions \
+(2025), https://arxiv.org/abs/2506.18452.", "Text"]}, Open]]}, Open]]}, 
+ WindowTitle -> "Exact monodromy and invariant bilinear-form checks", 
+ WindowSize -> {808, 740}, CellContext -> "AncillaryExact04`", 
+ FrontEndVersion -> "14.1 for Mac OS X ARM (64-bit) (July 16, 2024)", 
+ StyleDefinitions -> "Default.nb"]
