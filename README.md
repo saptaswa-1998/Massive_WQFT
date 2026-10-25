@@ -36,7 +36,7 @@ The filename `01-litered-intersection-ibp-crosscheck.nb` is kept as distributed;
 
 **Mathematica notebooks**
 
-- Wolfram Mathematica / Wolfram Language. The saved notebook headers identify **Mathematica 14.1** as the authoring environment; compatibility with other versions has not been established here.
+- Wolfram Mathematica / Wolfram Language. 
 - **LiteRed** for the package-dependent reduction in notebook 01.
 - **Libra** for notebook 05. Its saved outputs identify **Libra 1.23**.
 - The other notebooks primarily use Wolfram Language's built-in symbolic and numerical functionality; inspect their initialization cells for any local requirements.
